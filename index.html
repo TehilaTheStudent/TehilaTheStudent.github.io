@@ -1,60 +1,504 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My First Webpage</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+    <style>
+        .context-menu {
+            display: none;
+            z-index: 2;
+            position: absolute;
+            background-color: #f1f1f1;
+            border: 1px solid #d4d4d4;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .option:hover {
+            background: bisque;
+        }
+
+        .dis {
+            margin: 0;
+        }
+
+        .preVisit {}
+
+        .postVisit {}
+
+        .prePostP {
+            margin: 0;
+        }
+
+        .pWeight {
+            position: absolute;
+            margin: 0;
+            z-index: 9;
+            background-color: orange;
+        }
+
+        .src {
+            box-shadow: 3px 3px 3px 3px yellow;
+        }
+
+        body {
+            display: block;
+        }
+
+        .outerDiv {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .v {
+            border: 3px solid black;
+            height: 50px;
+            width: 50px;
+            background-color: #85b1b1;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .e {
+            border: 3px solid blue;
+            position: relative;
+        }
+
+        .eCon {
+            /* border:1px solid yellow; */
+            position: absolute;
+            top: 300px;
+            left: 300px;
+        }
+
+        .arrow {
+
+            height: 30px;
+            width: 30px;
+
+            box-sizing: border-box;
+            border-top: 15px solid transparent;
+            border-right: 30px solid brown;
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            border-bottom: 15px solid transparent;
+        }
+    </style>
+    <script>
+        vArr = [
+            { index: 0, preVIndex: -1, dist: Number.MAX_VALUE, preVisit: -1, postVisit: -1, visited: false, neighbors: [{ index: 1, weight: 88 }], outsiders: [] },
+            { index: 1, preVIndex: -1, dist: Number.MAX_VALUE, preVisit: -1, postVisit: -1, visited: false, neighbors: [{ index: 2, weight: 45 }, { index: 3, weight: 45 }, { index: 4, weight: 45 }], outsiders: [0] },
+            { index: 2, preVIndex: -1, dist: Number.MAX_VALUE, preVisit: -1, postVisit: -1, visited: false, neighbors: [{ index: 3, weight: 45 }], outsiders: [1] },
+            { index: 3, preVIndex: -1, dist: Number.MAX_VALUE, preVisit: -1, postVisit: -1, visited: false, neighbors: [{ index: 4, weight: 45 }], outsiders: [1, 2] },
+            { index: 4, preVIndex: -1, dist: Number.MAX_VALUE, preVisit: -1, postVisit: -1, visited: false, neighbors: [], outsiders: [1, 3] }
+        ]
+        forContext=-1;
+        vIndex = 5;
+        function Dijkstra(index) {
+            vArr.forEach(eachV => { eachV.preVIndex = -1; eachV.dist = Number.MAX_VALUE });
+            vArr[index].dist = 0;
+            let heap = [...vArr];
+            while (heap.length != 0) {
+                minDistV = heap.reduce((min, current) => {
+                    return current.dist < min.dist ? current : min;
+                }, heap[0]);
+                heap = [...heap.filter(eachV => eachV.index != minDistV.index)];
+                minDistV.neighbors.forEach(eachNeigh => {
+                    if (vArr[eachNeigh.index].dist > minDistV.dist + eachNeigh.weight) {
+                        vArr[eachNeigh.index].dist = minDistV.dist + eachNeigh.weight;
+                        vArr[eachNeigh.index].preVIndex = minDistV.index;
+                        heap.forEach(eachV => {
+                            if (eachV.index == eachNeigh.index) {
+                                eachV.dist = vArr[eachNeigh.index].dist;
+                            }
+                        });
+                    }
+                });
+            }
+           
+        }
+        function showDis() {
+            vArr.forEach(eachV => {
+                if(eachV.dist==Number.MAX_VALUE){
+                    getDivVByIndex(eachV.index).querySelector(".dis").innerHTML ="∞";
+                }
+                else{
+                    getDivVByIndex(eachV.index).querySelector(".dis").innerHTML = eachV.dist;
+                }
+            });
+        }
+        newRain = { from: null };
+        function DFS() {
+            let clock = 1;
+            vArr.forEach(element => {
+                element.preVisit = -1; element.postVisit = -1; element.visited = false;
+            });
+            vArr.forEach(element => {
+                if (element.visited == false) {
+                    clock = Explore(element, clock);
+                }
+            })
+        }
+        function getWeightByIndexex(from, to) {
+            return vArr[from].filter(eachNeigh =>
+                eachNeigh.index == to
+            )[0].weight;
+        }
+        function getDivVByIndex(index) {
+            return document.querySelector("[data-index='" + index + "']")
+        }
+        function getDivEConByIndexes(from, to) {
+            return document.querySelector("[data-index='" + from + "-" + to + "']");
+        }
+        function Explore(v, clock) {
+            v.visited = true;
+            v.preVisit = clock;
+            getDivVByIndex(v.index).querySelector(".preVisit").innerHTML = clock;
+            clock++;
+            v.neighbors.forEach(neighbor => {
+                if (vArr[neighbor.index].visited == false) {
+                    clock = Explore(vArr[neighbor.index], clock);
+                }
+            })
+            v.postVisit = clock;
+            getDivVByIndex(v.index).querySelector(".postVisit").innerHTML = clock;
+            clock++;
+            return clock;
+        }
+        function isEdge(indexU, indexV) {
+            if (vArr[indexU].neighbors.findIndex(nei => nei.index == indexV) == -1)
+                return false;
+            return true
+        }
+        function addV() {
+            vArr.push({ index: vIndex, preVIndex: -1, dist: Number.MAX_VALUE, preVisit: -1, postVisit: -1, visited: false, neighbors: [], outsiders: [] })
+            let newV = document.createElement("div");
+            let dis = document.createElement("p");
+            let prePostP = document.createElement("p");
+            prePostP.classList.add("prePostP");
+            dis.classList.add("dis");
+            let preVisitP = document.createElement("span");
+            preVisitP.classList.add("preVisit");
+            let postVisitP = document.createElement("span");
+            postVisitP.classList.add("postVisit");
+            prePostP.appendChild(preVisitP);
+            prePostP.innerHTML += '/';
+            prePostP.appendChild(postVisitP);
+            newV.dataset.index = vIndex;
+            newV.draggable = "true";
+            newV.addEventListener("dragstart", dragStart);
+            newV.addEventListener("click", newRainbow);
+            newV.addEventListener("contextmenu", showContext);
+            newV.classList.add("v");
+            newV.innerText = vIndex;
+            newV.appendChild(prePostP);
+            newV.appendChild(dis);
+            document.querySelector(".outerDiv").appendChild(newV);
+            vIndex++;
+        }
+
+        function addE(from, to) {
+            // let from = document.querySelector("[data-index='2']");
+            // let to = document.querySelector("[data-index='4']");
+            let fromIndex = Number(from.dataset.index);
+            let toIndex = Number(to.dataset.index);
+            vArr[fromIndex].neighbors.push({ index: toIndex, weight: 0 });
+            vArr[toIndex].outsiders.push(Number(fromIndex));
+            let eContainer = document.createElement("div");
+            let eLine = document.createElement("div");
+            let arrow = document.createElement("div");
+            let pWeight = document.createElement("p");
+            pWeight.classList.add("pWeight");
+            pWeight.innerHTML = 0;
+            arrow.classList.add("arrow");
+            eLine.appendChild(arrow);
+            eLine.classList.add("e");
+            eContainer.appendChild(eLine);
+            eContainer.appendChild(pWeight);
+            eContainer.addEventListener("dblclick", setWeight);
+            eContainer.classList.add("eCon");
+            eContainer.dataset.dir = from.dataset.index + "-" + to.dataset.index;
+            document.querySelector(".outerDiv").appendChild(eContainer);
+            makeRainbow(fromIndex, toIndex);
+            newRain.from.classList.remove("src");
+            newRain.from = null;
+        }
+        function makeRainbow(fromIndex, toIndex) {
+            //0=1\2, 1=2/1, 2=1/2, 3=2\1
+            let v1 = document.querySelector("[data-index='" + fromIndex + "']");
+            let v2 = document.querySelector("[data-index='" + toIndex + "']");
+            let eCon = document.querySelector("[data-dir='" + fromIndex + "-" + toIndex + "']");
+            v1MiddleX = v1.offsetLeft + v1.offsetWidth / 2;
+            v1MiddleY = v1.offsetTop + v1.offsetHeight / 2;
+            v2MiddleX = v2.offsetLeft + v1.offsetHeight / 2;
+            v2MiddleY = v2.offsetTop + v2.offsetWidth / 2;
+            divHeight = Math.abs(v1MiddleY - v2MiddleY);
+            divWidth = Math.abs(v1MiddleX - v2MiddleX);
+
+            eCon.style.height = divHeight + "px";
+            eCon.style.width = divWidth + "px";
+
+            if (v1MiddleX < v2MiddleX && v1MiddleY < v2MiddleY) {//1\2
+                eCon.style.top = v1MiddleY + "px";
+                eCon.style.left = v1MiddleX + "px";
+                diagon(0, eCon);
+            }
+            if (v1MiddleX > v2MiddleX && v1MiddleY < v2MiddleY) {//2/1
+                eCon.style.top = v1MiddleY + "px";
+                eCon.style.left = v2MiddleX + "px";
+                diagon(1, eCon);
+            }
+            if (v1MiddleX < v2MiddleX && v1MiddleY > v2MiddleY) {//1/2
+                eCon.style.top = v2MiddleY + "px";
+                eCon.style.left = v1MiddleX + "px";
+                diagon(2, eCon);
+            }
+            if (v1MiddleX > v2MiddleX && v1MiddleY > v2MiddleY) {//2\1
+                eCon.style.top = v2MiddleY + "px";
+                eCon.style.left = v2MiddleX + "px";
+                diagon(3, eCon);
+            }
+
+
+
+
+        }
+        function calculateSlopeAndAngle(x1, y1, x2, y2) {
+            // Calculate the slope
+            const slope = (y2 - y1) / (x2 - x1);
+
+            // Calculate the angle in radians
+            const angleRadians = Math.atan(slope);
+
+            // Convert the angle to degrees
+            const angleDegrees = (angleRadians * 180) / Math.PI;
+
+            return {
+                slope: slope,
+                angleDegrees: angleDegrees
+            };
+        }
+        function diagon(direction, outer) {
+            weight = outer.querySelector("p");
+            weight.style.top = outer.clientHeight / 2 + "px";
+            weight.style.left = +outer.clientWidth / 2 + "px";
+            line = outer.querySelector(".e");
+            outerHeight = outer.clientHeight
+            outerWidth = outer.clientWidth
+            diagLen = Math.sqrt(Math.pow(outerHeight, 2) + Math.pow(outerWidth, 2))
+            line.style.left = -(diagLen - outerWidth) / 2 + "px";
+            line.style.top = outerHeight / 2 - line.clientTop + "px";
+            angle = calculateSlopeAndAngle(outer.offsetLeft, outer.offsetTop, outer.offsetLeft + outerWidth, outer.offsetTop + outerHeight).angleDegrees;
+            line.style.width = diagLen + "px";
+
+            if (direction == 0)
+                line.style.rotate = 180 + angle + "deg";
+            if (direction == 1)
+                line.style.rotate = -angle + "deg";
+            if (direction == 2)
+                line.style.rotate = 180 - angle + "deg";
+            if (direction == 3)
+                line.style.rotate = angle + "deg";
+        }
+        // Function to handle the drag start event
+        function dragStart(e) {
+            e.dataTransfer.setData("text/plain", e.target.dataset.index);
+        }
+        function get2Indexes(str) {
+            let nums = str.split("-");
+            return {
+                from: Number(nums[0]), to: Number(nums[1])
+            }
+        }
+        // Function to handle the drop event
+        function drop(e) {
+            e.preventDefault();
+            var data = e.dataTransfer.getData("text/plain");
+            var draggedElement = document.querySelector("[data-index='" + data + "']");
+
+            // Calculate the new position based on the drop coordinates
+            var offsetX = e.clientX - draggedElement.clientWidth / 2;
+            var offsetY = e.clientY - draggedElement.clientHeight / 2;
+
+            // Set the new position
+            draggedElement.style.left = offsetX + "px";
+            draggedElement.style.top = offsetY + "px";
+            v = vArr[Number(draggedElement.dataset.index)];
+            for (i = 0; i < v.neighbors.length; i++) {
+                makeRainbow(v.index, v.neighbors[i].index);
+            }
+            for (i = 0; i < v.outsiders.length; i++) {
+                makeRainbow(v.outsiders[i], v.index);
+            }
+
+        }
+
+        // Function to handle the drag over event and allow the drop
+        function dragOver(e) {
+            e.preventDefault();
+
+        }
+        function setWeight(e) {
+            let indexes = get2Indexes(e.target.parentElement.dataset.dir);
+            let newWeight = Number(window.prompt("type a new weight to connet " + indexes.from + " to " + indexes.to));
+            e.target.innerText = newWeight;
+            vArr[indexes.from].neighbors.forEach(element => {
+                if (element.index == indexes.to) element.weight = newWeight;
+            });
+        }
+        function newRainbow(e) {
+            e.stopPropagation();
+            if (newRain.from == null) {
+                newRain.from = e.currentTarget;
+                e.currentTarget.classList.add("src");
+            }
+            else {
+                if (newRain.from == e.currentTarget || isEdge(Number(newRain.from.dataset.index), Number(e.currentTarget.dataset.index)) || isEdge(Number(e.currentTarget.dataset.index), Number(newRain.from.dataset.index))) {
+                    newRain.from.classList.remove("src");
+                    newRain.from = null;
+                }
+                else {
+                    addE(newRain.from, e.currentTarget);
+                }
+            }
+        }
+        function showContext(e) {
+            e.preventDefault();
+            const contextMenu = document.querySelector('.context-menu');
+            // Show the custom context menu at the mouse position
+            contextMenu.style.display = 'block';
+            contextMenu.style.left = `${e.pageX}px`;
+            contextMenu.style.top = `${e.pageY}px`;
+            forContext=Number(e.currentTarget.dataset.index);
+        }
+        function makeDijkstra(e){
+            const contextMenu = document.querySelector('.context-menu');
+            contextMenu.style.display = 'none';
+            Dijkstra(forContext);
+            forContext=-1;
+            showDis();
+        }
+        function cancelRain(e) {
+            const contextMenu = document.querySelector('.context-menu');
+            contextMenu.style.display = 'none';
+            forContext=-1;
+            if (!e.target.classList.contains("v") && newRain.from != null) {
+                newRain.from.classList.remove("src");
+                newRain.from = null;
+            }
+            if (e.target.classList.contains("pWeight")) {
+                setWeight(e);
+            }
+            //alert("target " + e.target.classList[0] + " " + "current " + e.currentTarget.classList[0])
+        }
+    </script>
 </head>
+
 <body>
-    <header>
-        <h1>Welcome to My Website</h1>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <main>
-        <section id="home">
-            <h2>Home</h2>
-            <p>This is the home section of my website. Welcome and enjoy your stay!</p>
-        </section>
-        
-        <section id="about">
-            <h2>About</h2>
-            <p>Here is some information about me and my website.</p>
-        </section>
-        
-        <section id="services">
-            <h2>Services</h2>
-            <p>These are the services I offer.</p>
-        </section>
-        
-        <section id="contact">
-            <h2>Contact</h2>
-            <p>Feel free to reach out to me via the contact form below.</p>
-            <form>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-                
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-                
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" required></textarea>
-                
-                <button type="submit">Submit</button>
-            </form>
-        </section>
-    </main>
-    
-    <footer>
-        <p>&copy; 2024 My First Webpage. All rights reserved.</p>
-    </footer>
+    <button onclick="addV()">add v</button>
+    <button onclick="DFS()">DFS</button>
+    <!-- <button onclick="addE()">add e</button> -->
+
+
+    <!-- Context menu container -->
+    <div id="contextMenu" class="context-menu">
+        <div class="option " onclick="makeDijkstra(event)">Dijkstra</div>
+        <div class="option">Option 2</div>
+        <div class="option">Option 3</div>
+        <!-- Add more options as needed -->
+    </div>
+    <menu>
+
+    </menu>
+    <div class="outerDiv" onclick="cancelRain(event)" ondrop="drop(event)" ondragover="dragOver(event)">
+        <div class="v" data-index="1" draggable="true" ondragstart="dragStart(event)" oncontextmenu="showContext(event)"
+            onclick="newRainbow(event)">1
+            <p class="prePostP">
+                <span class="preVisit"></span>/
+                <span class="postVisit"></span>
+            </p>
+            <p class="dis"></p>
+        </div>
+        <div class="eCon" data-dir="0-1" ondblclick="setWeight(event)">
+
+            <div class="e">
+
+                <div class="arrow"></div>
+            </div>
+            <p class="pWeight">88</p>
+        </div>
+        <div class="v" data-index="0" draggable="true" oncontextmenu="showContext(event)" ondragstart="dragStart(event)"
+            onclick="newRainbow(event)">0
+            <p class="prePostP">
+                <span class="preVisit"></span>/
+                <span class="postVisit"></span>
+            </p>
+            <p class="dis"></p>
+        </div>
+
+        <div class="v" data-index="2" draggable="true" oncontextmenu="showContext(event)" ondragstart="dragStart(event)"
+            onclick="newRainbow(event)">2
+            <p class="prePostP">
+                <span class="preVisit"></span>/
+                <span class="postVisit"></span>
+            </p>
+            <p class="dis"></p>
+        </div>
+
+        <div class="eCon" data-dir="1-2" ondblclick="setWeight(event)">
+
+            <div class="e">
+
+                <div class="arrow"></div>
+            </div>
+            <p class="pWeight">45</p>
+        </div>
+        <div class="eCon" data-dir="1-3" ondblclick="setWeight(event)">
+            <p class="pWeight">45</p>
+            <div class="e">
+                <div class="arrow"></div>
+            </div>
+
+        </div>
+        <div class="eCon" data-dir="1-4" ondblclick="setWeight(event)">
+            <div class="e">
+                <div class="arrow"></div>
+            </div>
+            <p class="pWeight">45</p>
+        </div>
+        <div class="eCon" data-dir="2-3" ondblclick="setWeight(event)">
+            <div class="e">
+                <div class="arrow"></div>
+            </div>
+            <p class="pWeight">45</p>
+        </div>
+        <div class="eCon" data-dir="3-4" ondblclick="setWeight(event)">
+            <div class="e">
+                <div class="arrow"></div>
+            </div>
+            <p class="pWeight">45</p>
+        </div>
+        <div class="v" data-index="3" oncontextmenu="showContext(event)" draggable="true" ondragstart="dragStart(event)"
+            onclick="newRainbow(event)">3
+            <p class="prePostP">
+                <span class="preVisit"></span>/
+                <span class="postVisit"></span>
+            </p>
+            <p class="dis"></p>
+        </div>
+        <div class="v" data-index="4" oncontextmenu="showContext(event)" draggable="true" ondragstart="dragStart(event)"
+            onclick="newRainbow(event)">4
+            <p class="prePostP">
+                <span class="preVisit"></span>/
+                <span class="postVisit"></span>
+            </p>
+            <p class="dis"></p>
+        </div>
+    </div>
+
 </body>
+
 </html>
