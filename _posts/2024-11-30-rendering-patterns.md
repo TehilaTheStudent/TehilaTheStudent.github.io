@@ -1,6 +1,6 @@
 ---
 title: "Understanding Rendering Patterns"
-date: 2024-11-28 10:00:00 +0000
+date: 2024-11-30 10:00:00 +0000
 categories: [Web Development, Rendering]
 tags: [rendering, patterns, SPA, MPA]
 toc: true
