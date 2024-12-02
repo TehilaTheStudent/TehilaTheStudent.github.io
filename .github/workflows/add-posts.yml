@@ -1,0 +1,29 @@
+name: Auto Add Posts
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  process-markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Process Markdown
+        run: |
+          mkdir -p _posts
+          for file in new_posts/*.md; do
+            date=$(date +%Y-%m-%d)
+            title=$(basename "$file" .md | tr ' ' '-')
+            post="_posts/${date}-${title}.md"
+            echo "---" > $post
+            echo "title: $(basename $file .md)" >> $post
+            echo "date: $(date +%Y-%m-%dT%H:%M:%S)" >> $post
+            echo "categories: [General]" >> $post
+            echo "tags: []" >> $post
+            echo "---" >> $post
+            cat $file >> $post
+          done
