@@ -1,10 +1,11 @@
-
 name: Auto Add Posts
 
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - _posts/**  # Prevent triggering on changes to _posts directory
 
 jobs:
   process-markdown:
@@ -28,3 +29,11 @@ jobs:
             echo "---" >> $post
             cat $file >> $post
           done
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add _posts/
+          git commit -m "Add new posts from new_posts directory"
+          git push
