@@ -1,4 +1,4 @@
----
+--- 
 title: python-practices
 date: 2024-12-03T07:29:45
 categories: [General]
