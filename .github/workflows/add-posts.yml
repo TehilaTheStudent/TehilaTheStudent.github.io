@@ -30,12 +30,16 @@ jobs:
             cat $file >> $post
           done
 
+      - name: Delete Contents of new_posts
+        run: |
+          rm -rf new_posts/*
+
       - name: Push changes
         run: |
           git config --global user.name "TehilaTheStudent"
           git config --global user.email "tehila14916@gmail.com"
-          git add _posts/
-          git commit -m "Add new posts from new_posts directory"
+          git add _posts/ new_posts/
+          git commit -m "Add new posts from new_posts directory and clean up"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
