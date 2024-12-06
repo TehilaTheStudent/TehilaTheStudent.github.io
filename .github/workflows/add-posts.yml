@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - _posts/**  # Prevent triggering on changes to _posts directory
+    paths:
+      - new_posts/**  # Trigger only on changes to the new_posts directory
 
 jobs:
   process-markdown:
@@ -32,11 +32,10 @@ jobs:
 
       - name: Push changes
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "TehilaTheStudent"
+          git config --global user.email "tehila14916@gmail.com"
           git add _posts/
           git commit -m "Add new posts from new_posts directory [skip ci]"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
