@@ -1,8 +1,9 @@
 ---
-title: patterns-in-different-languages
-date: 2024-12-08T15:05:59
+title: "patterns-in-different-languages"
+date: 2024-11-30 10:00:00 +0000
 categories: [General]
 tags: []
+toc: true
 ---
 Below is a structured view of how these languages group by similarity in terms of design pattern application, and how their language features influence the patterns you choose and their complexity. Also included is guidance on organizing your pattern practice into projects.
 

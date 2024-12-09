@@ -1,8 +1,9 @@
 --- 
-title: python-practices
-date: 2024-12-03T07:29:45
+title: "python-practices"
+date: 2024-12-03 07:29:45 +0000
 categories: [General]
 tags: []
+toc: true
 ---
 Here’s a comprehensive breakdown of the approaches, with examples for each **good practice**, and finally, a **cheat sheet** to summarize the good practices for quick reference.
 

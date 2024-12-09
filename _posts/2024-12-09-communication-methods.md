@@ -1,8 +1,9 @@
 ---
-title: communication-methods
-date: 2024-12-09T21:43:33
+title: "communication-methods"
+date: 2024-12-09 21:43:33 +0000
 categories: [General]
 tags: []
+toc: true
 ---
 Let’s dive deeper and provide an **exhaustive and categorized comparison** of **all communication methods** (including sockets, shared memory, file-based systems, message queues, and more). We’ll organize by categories like **data exchange mechanism**, **synchronization**, **application scope**, and **scalability**, and then compare their use cases, strengths, and weaknesses.
 

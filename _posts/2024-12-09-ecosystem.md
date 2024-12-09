@@ -1,8 +1,9 @@
 ---
-title: ecosystem
-date: 2024-12-09T21:43:33
+title: "ecosystem"
+date: 2024-11-30 10:00:00 +0000
 categories: [General]
 tags: []
+toc: true
 ---
 ## Key Terms
 

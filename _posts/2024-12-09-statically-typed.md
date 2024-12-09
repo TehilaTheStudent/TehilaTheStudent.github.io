@@ -1,8 +1,9 @@
 ---
-title: statically-typed
-date: 2024-12-09T21:43:33
+title: "statically-typed"
+date: 2024-12-09 21:43:33 +0000
 categories: [General]
 tags: []
+toc: true
 ---
 Here’s a **comprehensive cheat sheet** covering a wide range of keywords and features for **C#, Java, and C++**. It includes categories like classes, inheritance, memory management, concurrency, and special features.
 

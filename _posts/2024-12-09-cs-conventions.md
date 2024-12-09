@@ -1,8 +1,9 @@
 ---
-title: cs-conventions
-date: 2024-12-09T21:43:33
+title: "cs-conventions"
+date: 2024-12-09 21:43:33 +0000
 categories: [General]
 tags: []
+toc: true
 ---
 Here’s a **comprehensive cheat sheet** for **C# coding conventions**, focusing on **file and directory names** with examples, and the standard **comment styles** that integrate well with IDEs like Visual Studio or Visual Studio Code.
 

@@ -1,8 +1,9 @@
 ---
-title: dynamically-typed
-date: 2024-12-09T21:43:33
+title: "dynamically-typed"
+date: 2024-12-09 21:43:33 +0000
 categories: [General]
 tags: []
+toc: true
 ---
 ### **Comprehensive Comparison Cheat Sheet: Python, JavaScript, and Go**
 
