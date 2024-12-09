@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - new_posts/**  # Trigger only on changes to the new_posts directory
+      - new_posts/** # Trigger only on changes to the new_posts directory
 
 jobs:
   process-markdown:
@@ -32,7 +32,7 @@ jobs:
 
       - name: Delete Contents of new_posts
         run: |
-          rm -rf new_posts/*
+          find new_posts -type f -delete
 
       - name: Push changes
         run: |
