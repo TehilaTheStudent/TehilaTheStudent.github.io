@@ -1,3 +1,9 @@
+---
+title: ecosystem
+date: 2024-12-09T21:43:33
+categories: [General]
+tags: []
+---
 ## Key Terms
 
 **Compiler**: A tool that translates your high-level source code into another form, typically either machine code (native executables) or an intermediate language. Example: `javac` for Java, `csc` for C#, `gcc` for C/C++.

@@ -1,3 +1,9 @@
+---
+title: communication-steps
+date: 2024-12-09T21:43:33
+categories: [General]
+tags: []
+---
 Here’s a comprehensive list of **all possible ways communication can occur**, ranging from **intra-process** communication (within a single program) to **inter-system communication** (between distributed systems). The list grows in scope and abstraction as it moves from small components to large systems.
 
 ---

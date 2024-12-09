@@ -1,3 +1,9 @@
+---
+title: dynamically-typed
+date: 2024-12-09T21:43:33
+categories: [General]
+tags: []
+---
 ### **Comprehensive Comparison Cheat Sheet: Python, JavaScript, and Go**
 
 This cheat sheet compares **Python**, **JavaScript**, and **Go** across a wide range of programming topics, including dynamic types, concurrency, memory management, data structures, and more.

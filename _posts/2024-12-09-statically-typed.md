@@ -1,3 +1,9 @@
+---
+title: statically-typed
+date: 2024-12-09T21:43:33
+categories: [General]
+tags: []
+---
 Here’s a **comprehensive cheat sheet** covering a wide range of keywords and features for **C#, Java, and C++**. It includes categories like classes, inheritance, memory management, concurrency, and special features.
 
 ---
